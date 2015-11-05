@@ -52,6 +52,7 @@ when 'rhel', 'fedora'
   end
 when 'debian'
   default['php']['conf_dir']      = '/etc/php5/cli'
+  default['php']['apache2_conf_dir'] = '/etc/php5/apache2'
   case node['platform']
   when 'ubuntu'
     if node['platform_version'].to_f >= 12.10

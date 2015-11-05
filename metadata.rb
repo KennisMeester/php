@@ -8,11 +8,8 @@ version           '1.7.2'
 depends 'build-essential'
 depends 'xml'
 depends 'mysql', '>= 6.0.0'
-depends 'yum-epel'
-depends 'windows'
-depends 'iis'
 
-%w(debian ubuntu centos redhat fedora scientific amazon windows oracle).each do |os|
+%w(debian ubuntu).each do |os|
   supports os
 end
 

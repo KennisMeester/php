@@ -1,10 +1,10 @@
 #
-# Author::  Joshua Timberman (<joshua@getchef.com>)
-# Author::  Seth Chisamore (<schisamo@getchef.com>)
-# Cookbook Name:: php
-# Recipe:: default
+# Author::  Panagiotis Papadomitsos (<pj@ezgr.net>)
 #
-# Copyright 2009-2014, Chef Software, Inc.
+# Cookbook Name:: php
+# Recipe:: apache2
+#
+# Copyright 2009-2012, Panagiotis Papadomitsos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@
 # limitations under the License.
 #
 
-include_recipe "php::#{node['php']['install_method']}"
+include_recipe 'apache2::mod_php5'
 
-# update the main channels
-php_pear_channel 'pear.php.net' do
-  action :update
+template "#{node['php']['apache2_conf_dir']}/php.ini" do
+  source node['php']['ini']['template']
+  cookbook node['php']['ini']['cookbook']
+  unless platform?('windows')
+    owner 'root'
+    group node['root_group']
+    mode '0644'
+  end
+  variables(directives: node['php']['directives'])
+  only_if { platform_family?('debian') }
 end
-
-php_pear_channel 'pecl.php.net' do
-  action :update
-end
-
-include_recipe 'php::ini'
-include_recipe 'php::apache2'
